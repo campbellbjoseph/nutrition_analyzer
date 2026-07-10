@@ -83,11 +83,13 @@ def render_deficiency_report(report, show_adequate: bool) -> None:
             st.markdown(status_line(s))
 
 
-def render_food_recommendations(recs) -> None:
+def render_food_recommendations(recs, top_n) -> None:
     st.subheader("Recommended Foods (per 100g serving)")
     if not recs:
         st.info("No recommendations -- either no deficiencies found, or no food data available.")
         return
+    if len(recs) < top_n:
+        st.caption(f"Unable to find {top_n} optimal foods, the {len(recs)} foods listed below should have you covered!")
     for i, r in enumerate(recs, 1):
         addressed = ", ".join(f"{n} {pct:.0f}%" for n, pct in r.addressed)
         with st.container(border=True):
@@ -161,12 +163,8 @@ def main():
 
             with st.spinner("Scoring food recommendations..."):
                 client = get_fdc_client()
-                use_full_database = False
-                if use_full_database:
-                    pool = client.all_food_profiles()
-                    st.caption(f"Scoring against the full local database: {len(pool)} foods")
-                else:
-                    pool = build_food_pool(client, CANDIDATE_FOODS, cache_path=None)
+                
+                pool = build_food_pool(client, CANDIDATE_FOODS, cache_path=None)
 
                 try:
                     recs = recommend_foods(report, pool, top_n=top_n)
@@ -174,7 +172,7 @@ def main():
                     st.warning(f"Skipping food recommendations: lookup failed ({e})")
                     return
 
-            render_food_recommendations(recs)
+            render_food_recommendations(recs, top_n)
 
         finally:
             os.unlink(tmp_path)
