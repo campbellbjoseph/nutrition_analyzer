@@ -109,9 +109,6 @@ def main():
         st.header("Options")
         show_adequate = st.checkbox("Show adequate nutrients too", value=False)
         no_food_recs = st.checkbox("Skip food recommendations", value=False)
-        use_full_database = st.checkbox(
-            "Use full food database (slower, broader coverage)", value=False
-        )
         top_n = st.slider("Number of foods to recommend", min_value=1, max_value=20, value=6)
 
     uploaded_file = st.file_uploader("Cronometer CSV export", type=["csv"])
