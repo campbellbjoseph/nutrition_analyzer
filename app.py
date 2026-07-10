@@ -161,6 +161,7 @@ def main():
 
             with st.spinner("Scoring food recommendations..."):
                 client = get_fdc_client()
+                use_full_database = False
                 if use_full_database:
                     pool = client.all_food_profiles()
                     st.caption(f"Scoring against the full local database: {len(pool)} foods")
