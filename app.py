@@ -22,7 +22,7 @@ from local_food_data import LocalFDCClient
 # Config -- point this at wherever the static JSON database lives in the repo.
 # If you have both a Foundation Foods and an SR Legacy file, list both.
 # ---------------------------------------------------------------------------
-DATABASE_JSON_PATHS = ["FoodData_Central_foundation_food_json_2026-04-30.json", "FoodData_Central_sr_legacy_food_json_2018-04.json"]  # <-- rename to match your actual file
+DATABASE_JSON_PATHS = ["FoodData_Central_foundation_food_json_2026-04-30.json"]  # <-- rename to match your actual file
 EXCLUDED_CATEGORIES = {"Beverages"}
 
 
